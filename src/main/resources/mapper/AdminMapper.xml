@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dingyun.dao.AdminMapper" >
+  <resultMap id="BaseResultMap" type="com.dingyun.model.Admin" >
+    <id column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="admin_name" property="adminName" jdbcType="VARCHAR" />
+    <result column="admin_passwod" property="adminPasswod" jdbcType="VARCHAR" />
+    <result column="admin_remark" property="adminRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    admin_id, admin_name, admin_passwod, admin_remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dingyun.model.Admin" >
+    insert into admin (admin_id, admin_name, admin_passwod, 
+      admin_remark)
+    values (#{adminId,jdbcType=INTEGER}, #{adminName,jdbcType=VARCHAR}, #{adminPasswod,jdbcType=VARCHAR}, 
+      #{adminRemark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dingyun.model.Admin" >
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="adminName != null" >
+        admin_name,
+      </if>
+      <if test="adminPasswod != null" >
+        admin_passwod,
+      </if>
+      <if test="adminRemark != null" >
+        admin_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminName != null" >
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPasswod != null" >
+        #{adminPasswod,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRemark != null" >
+        #{adminRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dingyun.model.Admin" >
+    update admin
+    <set >
+      <if test="adminName != null" >
+        admin_name = #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPasswod != null" >
+        admin_passwod = #{adminPasswod,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRemark != null" >
+        admin_remark = #{adminRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dingyun.model.Admin" >
+    update admin
+    set admin_name = #{adminName,jdbcType=VARCHAR},
+      admin_passwod = #{adminPasswod,jdbcType=VARCHAR},
+      admin_remark = #{adminRemark,jdbcType=VARCHAR}
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+
+  <select id="loginVerifier"  parameterType="com.dingyun.model.Admin" resultMap="BaseResultMap">
+    select * from admin where admin_name =#{adminName} and admin_passwod =#{adminPasswod}
+
+  </select>
+
+  <select id="usernameVerifier" parameterType="com.dingyun.model.Admin"  resultMap="BaseResultMap">
+    select * from admin where admin_name =#{adminName}
+
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from admin
+  </select>
+</mapper>

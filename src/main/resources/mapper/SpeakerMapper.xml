@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dingyun.dao.SpeakerMapper">
+    <resultMap id="BaseResultMap" type="com.dingyun.model.Speaker">
+        <id column="speaker_id" property="speakerId" jdbcType="INTEGER"/>
+        <result column="speaker_name" property="speakerName" jdbcType="VARCHAR"/>
+        <result column="speaker_desc" property="speakerDesc" jdbcType="VARCHAR"/>
+        <result column="speaker_job" property="speakerJob" jdbcType="VARCHAR"/>
+        <result column="speaker_head_url" property="speakerHeadUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    speaker_id, speaker_name, speaker_desc, speaker_job, speaker_head_url
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from speaker
+        where speaker_id = #{speakerId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from speaker
+    where speaker_id = #{speakerId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.dingyun.model.Speaker">
+    insert into speaker (speaker_id, speaker_name, speaker_desc,
+      speaker_job, speaker_head_url)
+    values (#{speakerId,jdbcType=INTEGER}, #{speakerName,jdbcType=VARCHAR}, #{speakerDesc,jdbcType=VARCHAR},
+      #{speakerJob,jdbcType=VARCHAR}, #{speakerHeadUrl,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.dingyun.model.Speaker">
+        insert into speaker
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="speakerId != null">
+                speaker_id,
+            </if>
+            <if test="speakerName != null">
+                speaker_name,
+            </if>
+            <if test="speakerDesc != null">
+                speaker_desc,
+            </if>
+            <if test="speakerJob != null">
+                speaker_job,
+            </if>
+            <if test="speakerHeadUrl != null">
+                speaker_head_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="speakerId != null">
+                #{speakerId,jdbcType=INTEGER},
+            </if>
+            <if test="speakerName != null">
+                #{speakerName,jdbcType=VARCHAR},
+            </if>
+            <if test="speakerDesc != null">
+                #{speakerDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="speakerJob != null">
+                #{speakerJob,jdbcType=VARCHAR},
+            </if>
+            <if test="speakerHeadUrl != null">
+                #{speakerHeadUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dingyun.model.Speaker">
+        update speaker
+        <set>
+            <if test="speakerName != null">
+                speaker_name = #{speakerName,jdbcType=VARCHAR},
+            </if>
+            <if test="speakerDesc != null">
+                speaker_desc = #{speakerDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="speakerJob != null">
+                speaker_job = #{speakerJob,jdbcType=VARCHAR},
+            </if>
+            <if test="speakerHeadUrl != null">
+                speaker_head_url = #{speakerHeadUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where speaker_id = #{speakerId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dingyun.model.Speaker">
+    update speaker
+    set speaker_name = #{speakerName,jdbcType=VARCHAR},
+      speaker_desc = #{speakerDesc,jdbcType=VARCHAR},
+      speaker_job = #{speakerJob,jdbcType=VARCHAR},
+      speaker_head_url = #{speakerHeadUrl,jdbcType=VARCHAR}
+    where speaker_id = #{speakerId,jdbcType=INTEGER}
+  </update>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select * from speaker
+  </select>
+
+    <delete id="deleteMore" parameterType="Integer[]">
+        delete from speaker where   speaker_id in
+        <foreach collection="ids" item="i" open="(" separator="," close=")">
+            #{i}
+        </foreach>
+    </delete>
+
+</mapper>
+

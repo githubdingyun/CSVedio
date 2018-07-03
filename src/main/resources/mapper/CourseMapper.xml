@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dingyun.dao.CourseMapper">
+    <resultMap id="BaseResultMap" type="com.dingyun.model.Course">
+        <id column="course_id" property="courseId" jdbcType="INTEGER"/>
+        <result column="course_title" property="courseTitle" jdbcType="VARCHAR"/>
+        <result column="course_desc" property="courseDesc" jdbcType="VARCHAR"/>
+        <result column="subject_id" property="subjectId" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    course_id, course_title, course_desc, subject_id
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from course
+        where course_id = #{courseId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from course
+    where course_id = #{courseId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.dingyun.model.Course">
+    insert into course (course_id, course_title, course_desc, 
+      subject_id)
+    values (#{courseId,jdbcType=INTEGER}, #{courseTitle,jdbcType=VARCHAR}, #{courseDesc,jdbcType=VARCHAR}, 
+      #{subjectId,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.dingyun.model.Course">
+        insert into course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="courseId != null">
+                course_id,
+            </if>
+            <if test="courseTitle != null">
+                course_title,
+            </if>
+            <if test="courseDesc != null">
+                course_desc,
+            </if>
+            <if test="subjectId != null">
+                subject_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="courseId != null">
+                #{courseId,jdbcType=INTEGER},
+            </if>
+            <if test="courseTitle != null">
+                #{courseTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="courseDesc != null">
+                #{courseDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="subjectId != null">
+                #{subjectId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dingyun.model.Course">
+        update course
+        <set>
+            <if test="courseTitle != null">
+                course_title = #{courseTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="courseDesc != null">
+                course_desc = #{courseDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="subjectId != null">
+                subject_id = #{subjectId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where course_id = #{courseId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dingyun.model.Course">
+    update course
+    set course_title = #{courseTitle,jdbcType=VARCHAR},
+      course_desc = #{courseDesc,jdbcType=VARCHAR},
+      subject_id = #{subjectId,jdbcType=INTEGER}
+    where course_id = #{courseId,jdbcType=INTEGER}
+  </update>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+    select * from course
+  </select>
+    <delete id="deleteMore" parameterType="Integer[]">
+        delete from course where  course_id in
+        <foreach collection="ids" item="i" open="(" separator="," close=")">
+            #{i}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="CSVedio archive">
+    <output-path>$PROJECT_DIR$/out/artifacts/CSVedio_archive</output-path>
+    <root id="archive" name="CSVedio archive.war">
+      <element id="artifact" artifact-name="CSVedio" />
+    </root>
+  </artifact>
+</component>

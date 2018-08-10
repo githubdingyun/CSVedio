@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/**
+ * 在这里可以写关于自定义的切面，我们可以写上自己想要的切面代码
+ */
+
 @Aspect
 @Component
 public class Service {
